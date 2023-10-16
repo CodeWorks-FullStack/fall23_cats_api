@@ -21,10 +21,16 @@ class CatsService {
   }
 
   async createCat(catData) {
+    // NOTE this will all change tomorrow
+    if (fakeDb.cats.length == 0) {
+      catData.id = 1
+    }
+    else {
+      const catIds = fakeDb.cats.map(cat => cat.id)
+      const largestCatId = Math.max(...catIds)
+      catData.id = largestCatId + 1
+    }
 
-
-
-    catData.id = fakeDb.cats.length + 1
     const newCat = new Cat(catData)
     fakeDb.cats.push(newCat)
     return newCat
