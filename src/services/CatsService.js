@@ -21,7 +21,7 @@ class CatsService {
   }
 
   async createCat(catData) {
-    // NOTE this will all change tomorrow
+    // NOTE this will all change tomorrow, weird unique id assigner
     if (fakeDb.cats.length == 0) {
       catData.id = 1
     }
@@ -32,7 +32,7 @@ class CatsService {
     }
 
     const newCat = new Cat(catData)
-    fakeDb.cats.push(newCat)
+    await fakeDb.cats.push(newCat)
     return newCat
   }
 
@@ -43,7 +43,7 @@ class CatsService {
       throw new BadRequest(`Invalid ID: ${catId}`)
     }
 
-    fakeDb.cats.splice(catIndex, 1)
+    await fakeDb.cats.splice(catIndex, 1)
   }
 }
 
