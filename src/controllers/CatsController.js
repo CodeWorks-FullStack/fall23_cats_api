@@ -9,7 +9,10 @@ export class CatsController extends BaseController {
       .get('/test', this.test)
       .get('', this.getCats)
       .get('/:catId', this.getCatById)
+      .post('', this.createCat)
+      .delete('/:catId', this.destroyCat)
   }
+
 
   test(request, response, next) {
     response.send('Here is your response!')
@@ -39,5 +42,29 @@ export class CatsController extends BaseController {
     }
   }
 
+  async createCat(request, response, next) {
+    try {
+      const catData = request.body
+
+      const cat = await catsService.createCat(catData)
+
+      response.send(cat)
+    } catch (error) {
+      next(error)
+    }
+  }
+
+
+  async destroyCat(request, response, next) {
+    try {
+      const catId = request.params.catId
+
+      await catsService.destroyCat(catId)
+
+      response.send('The cute little cat is now at the farm, and they has all the toys they will ever need. 🧑‍🌾')
+    } catch (error) {
+      next(error)
+    }
+  }
 
 }

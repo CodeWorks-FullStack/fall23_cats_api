@@ -1,7 +1,10 @@
 import { fakeDb } from "../db/FakeDb.js"
+import { Cat } from "../models/Cat.js"
 import { BadRequest } from "../utils/Errors.js"
 
 class CatsService {
+
+
   async getCats() {
     const cats = await fakeDb.cats
 
@@ -15,6 +18,26 @@ class CatsService {
     }
 
     return foundCat
+  }
+
+  async createCat(catData) {
+
+
+
+    catData.id = fakeDb.cats.length + 1
+    const newCat = new Cat(catData)
+    fakeDb.cats.push(newCat)
+    return newCat
+  }
+
+  async destroyCat(catId) {
+    const catIndex = fakeDb.cats.findIndex(cat => cat.id == catId)
+
+    if (catIndex == -1) {
+      throw new BadRequest(`Invalid ID: ${catId}`)
+    }
+
+    fakeDb.cats.splice(catIndex, 1)
   }
 }
 
